@@ -13,17 +13,17 @@ public class ProductService {
     @Autowired
     private ProductRepository productRepository;
 
-    public Product addProduct(String name, double price) {
+    public Product addProduct(String name, String price) {
         Product product = new Product();
         product.setName(name);
-        product.setEncryptedPrice(EncryptionUtils.encrypt(Double.toString(price)));
+        product.setEncryptedPrice(EncryptionUtils.encrypt(price));
         return productRepository.save(product);
     }
 
-    public Product updateProduct(Long id, String name, double price) {
+    public Product updateProduct(Long id, String name, String price) {
         Product product = productRepository.findById(id).orElseThrow(() -> new RuntimeException("Not found"));
         product.setName(name);
-        product.setEncryptedPrice(EncryptionUtils.encrypt(Double.toString(price)));
+        product.setEncryptedPrice(EncryptionUtils.encrypt(price));
         return productRepository.save(product);
     }
 
@@ -37,8 +37,7 @@ public class ProductService {
         for (Product product : products) {
             if (product.getEncryptedPrice() != null) {
                 try {
-                    String decrypted = EncryptionUtils.decrypt(product.getEncryptedPrice());
-                    product.setPrice(Double.parseDouble(decrypted));
+                    product.setPrice(displayDecryptedFormattedPrice(product.getEncryptedPrice()));
                 } catch (Exception e) {
                     // Optional: log or handle bad decryption
                     System.out.println("Error: " + e.getMessage());
@@ -50,9 +49,14 @@ public class ProductService {
         return products;
     }
 
-    public double getPrice(Product product) {
-        String decrypted = EncryptionUtils.decrypt(product.getEncryptedPrice());
-        return Double.parseDouble(decrypted);
+    public String getPrice(Product product) {
+        return displayDecryptedFormattedPrice(product.getEncryptedPrice());
+    }
+
+    private String displayDecryptedFormattedPrice(String encryptedPrice) {
+        final String decrypted = EncryptionUtils.decrypt(encryptedPrice); //Decrypt the price from DB
+        final double priceDouble = Double.parseDouble(decrypted); //Parse it to Double
+        return String.format("%.2f", priceDouble);        // format to 2 decimal places
     }
 
     public Product findById(Long id) {

@@ -40,6 +40,7 @@ public class ProductBean implements Serializable {
 
     // Save or update
     public String save() {
+
         if (product.getId() == null) {
             Product p = productService.addProduct(product.getName(), product.getPrice());
             products.add(p);
