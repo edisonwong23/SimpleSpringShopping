@@ -61,7 +61,32 @@ For simplicity, insert initial admin credentials directly into the database.
 
 Example SQL:
 ```bash
-INSERT INTO users (username, password_hash) VALUES ('admin', 'a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3'); -- SHA-256 hash of "123"
+-- Create the database
+CREATE DATABASE SimpleShoppingDB;
+USE SimpleShoppingDB;
+
+-- Create users table
+CREATE TABLE users (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL
+);
+
+-- Create products table
+CREATE TABLE products (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    price VARCHAR(255) NOT NULL
+);
+
+INSERT INTO users (name, password) VALUES
+('alice', 'a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3');-- password: '123
+
+-- Insert sample products (prices can be encrypted as needed)
+INSERT INTO products (name, price) VALUES 
+('Apple iPhone 15', 'rMSAActU6FV3GyfUfELKgg=='),
+('Samsung Galaxy S23', 'Dmnt0uGay2En4JaOl6vo1g=='),
+('Google Pixel 7a', 'hDpWe+/oJp0BjaSZXUFD6g==');
 ```
 ## 🔒 Notes
 SHA-256 is used to hash passwords during both registration and login.
