@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+<h:head>
+    <title>Product Management</title>
+    <!-- Bootstrap CSS CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"/>
+</h:head>
+<h:body>
+
+    <div class="container mt-4">
+
+        <!-- Logout Button -->
+        <div class="d-flex justify-content-end mb-3">
+            <h:form>
+                <h:commandButton value="Logout" action="#{loginBean.logout}" styleClass="btn btn-secondary" />
+            </h:form>
+        </div>
+
+        <!-- Messages -->
+        <h:messages globalOnly="true" layout="list" styleClass="alert alert-danger" />
+
+        <!-- Product Form -->
+        <h:form id="productForm" class="mb-4">
+            <div class="row g-3 align-items-center">
+                <div class="col-md-4">
+                    <h:outputLabel for="name" value="Name" styleClass="form-label" />
+                    <h:inputText id="name" value="#{productBean.product.name}" required="true" requiredMessage="Name is required"
+                                 styleClass="form-control" />
+                    <h:message for="name" styleClass="text-danger" />
+                </div>
+
+                <div class="col-md-4">
+                    <h:outputLabel for="price" value="Price" styleClass="form-label" />
+                    <h:inputText id="price" value="#{productBean.product.price}" required="true" requiredMessage="Price is required"
+                                 styleClass="form-control" />
+                    <h:message for="price" styleClass="text-danger" />
+                </div>
+
+                <div class="col-md-4 d-flex align-items-end">
+                    <h:commandButton value="Save" action="#{productBean.save}" styleClass="btn btn-primary w-100" />
+                </div>
+            </div>
+        </h:form>
+
+        <!-- Product Table -->
+        <h:form id="productsForm">
+            <table class="table table-striped table-hover">
+                <thead class="table-dark">
+                <tr>
+                    <th>Name</th>
+                    <th>Price</th>
+                    <th style="width: 180px;">Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                <ui:repeat value="#{productBean.products}" var="prod">
+                    <tr>
+                        <td>#{prod.name}</td>
+                        <td>RM #{prod.price}</td>
+                        <td>
+                            <h:commandButton value="Edit" action="#{productBean.edit(prod)}" styleClass="btn btn-sm btn-warning me-2" />
+                            <h:commandButton value="Delete" action="#{productBean.delete(prod)}"
+                                             styleClass="btn btn-sm btn-danger"
+                                             onclick="return confirm('Are you sure you want to delete this product?');" />
+                        </td>
+                    </tr>
+                </ui:repeat>
+                </tbody>
+            </table>
+        </h:form>
+
+    </div>
+
+    <!-- Bootstrap JS Bundle (Popper.js included) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+</h:body>
+</html>
