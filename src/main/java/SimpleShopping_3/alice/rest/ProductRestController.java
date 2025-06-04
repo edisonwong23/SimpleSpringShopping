@@ -3,7 +3,6 @@ package SimpleShopping_3.alice.rest;
 import SimpleShopping_3.alice.entity.Product;
 import SimpleShopping_3.alice.exception.ResourceNotFoundException;
 import SimpleShopping_3.alice.service.ProductService;
-import jakarta.faces.annotation.RequestMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
